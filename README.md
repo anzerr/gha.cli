@@ -1,13 +1,13 @@
 
 ### `Intro`
-// explain
+util for github actions
 
 #### `Install`
 ``` bash
-npm install --save git+https://git@github.com/anzerr/<?>.git
+npm i -g git+https://git@github.com/anzerr/gha.cli.git
 ```
 
 ### `Example`
 ``` javascript
-console.log('usage');
+gha scope --user cat
 ```
