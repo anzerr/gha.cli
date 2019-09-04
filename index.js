@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 
 const {Cli, Map} = require('cli.util'),
 	path = require('path'),
@@ -5,12 +6,8 @@ const {Cli, Map} = require('cli.util'),
 
 const cwd = process.cwd();
 const cli = new Cli(process.argv, [
-	new Map('help')
-		.alias(['h', 'H']),
-	new Map('port')
-		.alias(['p', 'P'])
-		.argument()
-], 1);
+	new Map('user').alias(['u', 'U']).arg()
+]);
 
 (() => {
 	if (cli.argument().is('scope')) {
@@ -18,7 +15,9 @@ const cli = new Cli(process.argv, [
 		return Promise.all([
 			scope(path.join(cwd, 'package.json'), u),
 			scope(path.join(cwd, 'package-lock.json'), u)
-		]);
+		]).then(() => {
+			console.log(`Scope is now "${u}"`);
+		});
 	}
 	if (cli.argument().is('help')) {
 		console.log('display command help');
