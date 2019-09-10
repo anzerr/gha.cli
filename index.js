@@ -21,7 +21,7 @@ const cli = new Cli(process.argv, [
 		});
 	}
 	if (cli.argument().is('name')) {
-		return name(path.join(cwd, 'package.json'), cli.get('user') || '').then((res) => {
+		return name(path.join(cwd, 'package.json'), cli.get('user') || '', cli.get('version')).then((res) => {
 			process.stdout.write(res);
 		});
 	}
