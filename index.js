@@ -7,7 +7,10 @@ const {Cli, Map} = require('cli.util'),
 
 const cwd = process.cwd();
 const cli = new Cli(process.argv, [
-	new Map('user').alias(['u', 'U']).arg()
+	new Map('user').alias(['u', 'U']).arg(),
+	new Map('version').alias(['v', 'V']).arg(),
+	new Map('tag').alias(['t', 'T']).arg(),
+	new Map('registry').alias(['r', 'R'])
 ]);
 
 (() => {
@@ -21,8 +24,8 @@ const cli = new Cli(process.argv, [
 		});
 	}
 	if (cli.argument().is('name')) {
-		return name(path.join(cwd, 'package.json'), cli.get('user') || '', cli.get('version')).then((res) => {
-			process.stdout.write(res);
+		return name(path.join(cwd, 'package.json'), cli.get('user') || '', cli.get('version'), cli.get('tag')).then((res) => {
+			process.stdout.write(cli.has('registry') ? `${process.env.INPUT_REGISTRY || ''}/${res}` : res);
 		});
 	}
 	if (cli.argument().is('help')) {
