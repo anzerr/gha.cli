@@ -32,14 +32,14 @@ class Format {
 		});
 	}
 
-	async formatPackage() {
+	async formatPackage(key) {
 		const pack = JSON.parse((await fs.readFile(path.join(this.path, 'package.json'))).toString()),
 			wait = [],
 			map = {},
 			ref = {};
 		pack.name = `@${this.user}/${pack.name.replace(/@.*?\//, '')}`;
-		for (const i in pack.dependencies) {
-			let find = pack.dependencies[i].match(/^git\+(https*|ssh):\/\/(git@)*github.com\/(.*?)\.git$/);
+		for (const i in pack[key]) {
+			let find = pack[key][i].match(/^git\+(https*|ssh):\/\/(git@)*github.com\/(.*?)\.git$/);
 			if (find) {
 				((id, url) => {
 					wait.push(this.getVersion(url).then((res) => {
@@ -48,12 +48,12 @@ class Format {
 					}));
 				})(i, find[3]);
 			} else {
-				map[i] = pack.dependencies[i];
+				map[i] = pack[key][i];
 			}
 		}
-		pack.dependencies = map;
+		pack[key] = map;
 		return Promise.all(wait).then(() => {
-			this.ref = ref;
+			this.ref = {...this.ref, ...ref};
 			return fs.writeFile(path.join(this.path, 'package.json'), JSON.stringify(pack, null, '\t'));
 		});
 	}
@@ -69,6 +69,15 @@ class Format {
 					return fs.writeFile(file, data);
 				});
 			}
+		}).then(async () => {
+			const file = path.join(this.path, 'package.json');
+			let data = (await fs.readFile(file)).toString();
+			console.log(this.ref);
+			for (let i in this.ref) {
+				data = data.replace(new RegExp(`"${i.replace(/\./, '\.')}"`, 'gm'), `"${this.ref[i]}"`);
+			}
+			console.log(data);
+			return fs.writeFile(file, data);
 		});
 	}
 
@@ -76,7 +85,9 @@ class Format {
 
 module.exports = (p, u) => {
 	const f = new Format(p, u);
-	return f.formatPackage().then(() => {
+	return f.formatPackage('dependencies').then(() => {
+		return f.formatPackage('devDependencies');
+	}).then(() => {
 		return f.refChange();
 	});
 };
