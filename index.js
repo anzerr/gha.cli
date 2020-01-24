@@ -16,7 +16,8 @@ const cli = new Cli(process.argv, [
 
 (() => {
 	if (cli.argument().is('npm')) {
-		return npm(cwd, cli.get('user') || 'anzerr').then(() => {
+		const u = cli.get('user') || 'anzerr';
+		return npm(cwd, u).then(() => {
 			console.log(`NPM Scope is now "${u}"`);
 		});
 	}
