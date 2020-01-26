@@ -3,6 +3,7 @@
 const {Cli, Map} = require('cli.util'),
 	path = require('path'),
 	scope = require('./src/scope'),
+	npm = require('./src/npm'),
 	name = require('./src/name');
 
 const cwd = process.cwd();
@@ -14,6 +15,12 @@ const cli = new Cli(process.argv, [
 ]);
 
 (() => {
+	if (cli.argument().is('npm')) {
+		const u = cli.get('user') || 'anzerr';
+		return npm(cwd, u).then(() => {
+			console.log(`NPM Scope is now "${u}"`);
+		});
+	}
 	if (cli.argument().is('scope')) {
 		const u = cli.get('user') || 'anzerr';
 		return Promise.all([
