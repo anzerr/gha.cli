@@ -1,20 +1,23 @@
 {
 	"name": "@anzerr/gha.cli",
 	"version": "1.0.6",
-	"description": "",
-	"main": "index.js",
-	"scripts": {
-		"test": "echo 'todo'"
+	"keywords": [],
+	"homepage": "https://github.com/anzerr/gha.cli#readme",
+	"bugs": {
+		"url": "https://github.com/anzerr/gha.cli/issues"
 	},
+	"repository": {
+		"type": "git",
+		"url": "git@github.com:anzerr/gha.cli.git"
+	},
+	"license": "MIT",
+	"author": "anzerr",
+	"main": "index.js",
+	"types": "index.d.ts",
 	"bin": {
 		"gha": "./index.js"
 	},
-	"keywords": [],
-	"author": "anzerr",
-	"license": "MIT",
-	"devDependencies": {
-		"eslint-config-basic": "git+https://git@github.com/anzerr/eslintrc.git"
-	},
+	"scripts": {},
 	"eslintConfig": {
 		"extends": "eslint-config-basic"
 	},
@@ -22,16 +25,11 @@
 		"cli.util": "git+https://github.com/anzerr/cli.util.git",
 		"fs.promisify": "git+https://github.com/anzerr/fs.promisify.git"
 	},
-	"repository": {
-		"type": "git",
-		"url": "git@github.com:anzerr/gha.cli.git"
+	"devDependencies": {
+		"eslint-config-basic": "git+https://git@github.com/anzerr/eslintrc.git"
 	},
 	"engines": {
 		"node": ">= 0.10.0"
 	},
-	"types": "index.d.ts",
-	"bugs": {
-		"url": "https://github.com/anzerr/gha.cli/issues"
-	},
-	"homepage": "https://github.com/anzerr/gha.cli#readme"
+	"description": ""
 }
